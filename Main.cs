@@ -11,14 +11,14 @@ public abstract class Unidade {
 
 }
 
-public abstract class Aldean : Unidade {
+public class Aldean : Unidade {
 
 }
 
-public abstract class Guerriero : Unidade {
+public class Guerriero : Unidade {
 
 }
 
-public abstract class Arqueiro : Unidade {
+public class Arqueiro : Unidade {
 
 }
