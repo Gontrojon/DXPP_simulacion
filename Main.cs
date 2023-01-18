@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 /*
  * Author : Jonatan Gonzalez Troyano
  * 
@@ -11,6 +8,9 @@ using System.Collections.Generic;
  * Github user : Gontrojon
  * 
  * */
+
+using System;
+using System.Collections.Generic;
 
 public class MainProgram {
 
@@ -23,7 +23,7 @@ public class MainProgram {
         equipoRoxo = new List<Unidade>();
         equipoAzul = new List<Unidade>();
 
-        // Añadese a cada equipo as seguintes unidades: 2 Aldeans 0 de ataque, 1 Gerreiro 10 de ataque, 1 Arqueiro 5 de ataque.
+        // Incluense a cada equipo as seguintes unidades: 2 Aldeans 0 de ataque, 1 Gerreiro 10 de ataque, 1 Arqueiro 5 de ataque.
 
         equipoRoxo.Add(new Aldean(0));
         equipoRoxo.Add(new Aldean(0));
