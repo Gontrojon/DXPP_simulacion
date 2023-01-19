@@ -14,26 +14,64 @@ using System.Collections.Generic;
 
 public class MainProgram {
 
-    // Creacion das listas
-    private static List<Unidade> equipoRoxo;
-    private static List<Unidade> equipoAzul;
+
 
     static void Main(string[] args) {
-        // inicializacion das listas
-        equipoRoxo = new List<Unidade>();
-        equipoAzul = new List<Unidade>();
+        // Creacion das listas
+        List<Unidade> equipoVermello = new List<Unidade>();
+        List<Unidade> equipoAzul  = new List<Unidade>();
+
+        Random rand = new Random();
 
         // Incluense a cada equipo as seguintes unidades: 2 Aldeans 0 de ataque, 1 Gerreiro 10 de ataque, 1 Arqueiro 5 de ataque.
 
-        equipoRoxo.Add(new Aldean(0));
-        equipoRoxo.Add(new Aldean(0));
-        equipoRoxo.Add(new Guerreiro(10));
-        equipoRoxo.Add(new Arqueiro(5));
+        equipoVermello.Add(new Aldean(0));
+        equipoVermello.Add(new Aldean(0));
+        equipoVermello.Add(new Guerreiro(10));
+        equipoVermello.Add(new Arqueiro(5));
 
         equipoAzul.Add(new Aldean(0));
         equipoAzul.Add(new Aldean(0));
         equipoAzul.Add(new Guerreiro(10));
         equipoAzul.Add(new Arqueiro(5));
+
+        // variable temporal para a condicion de victoria.
+        bool vitoria = false;
+
+        // variables para saber quen ataca e quen defende
+        int atacante, defensor;
+
+        // varibale que controla os turnos: true = vermello, false = azul. Considerase que sempre empezan os vermellos polo momento
+        int  turno = rand.Next(0,2);
+
+
+        do {
+
+            if (turno == 0) { 
+            
+
+                turno = rand.Next(0, 2);
+            }
+            else
+            {
+                // Atacara o equipo Azul
+
+                turno = rand.Next(0, 2);
+            }
+
+
+            if (equipoAzul.Count == 0 || equipoVermello.Count == 0) {
+                vitoria = true;
+            }
+
+            // temporalmente cerramos o bucle na primeria execucion
+            vitoria = true;
+            
+        } while (!vitoria);
+
+
+
+
 
         // Una vez implementado o bucle de xogo esta liña mostrara a info das unidades
         Console.Write("Ola mundo!");
