@@ -48,12 +48,14 @@ public class MainProgram {
         do {
 
             if (turno == 0) { 
-                turno = rand.Next(0, 2);
+                // Atacara o equipo Vermello
             } else {
                 // Atacara o equipo Azul
-                turno = rand.Next(0, 2);
             }
 
+            // Asignase un novo turno
+            turno = rand.Next(0, 2);
+            
             if (equipoAzul.Count == 0 || equipoVermello.Count == 0) {
                 vitoria = true;
             }
@@ -63,7 +65,7 @@ public class MainProgram {
             
         } while (!vitoria);
 
-        // Una vez implementado o bucle de xogo esta li�a mostrara a info das unidades
+        // Una vez implementado o bucle de xogo esta linha mostrara a info das unidades
         Console.Write("Ola mundo!");
     }
 }
