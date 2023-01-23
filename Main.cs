@@ -48,18 +48,14 @@ public class MainProgram {
         do {
 
             if (turno == 0) { 
-            
-
-                turno = rand.Next(0, 2);
-            }
-            else
-            {
+                // Atacara o equipo Vermello
+            } else {
                 // Atacara o equipo Azul
-
-                turno = rand.Next(0, 2);
             }
 
-
+            // Asignase un novo turno
+            turno = rand.Next(0, 2);
+            
             if (equipoAzul.Count == 0 || equipoVermello.Count == 0) {
                 vitoria = true;
             }
@@ -69,11 +65,7 @@ public class MainProgram {
             
         } while (!vitoria);
 
-
-
-
-
-        // Una vez implementado o bucle de xogo esta liña mostrara a info das unidades
+        // Una vez implementado o bucle de xogo esta linha mostrara a info das unidades
         Console.Write("Ola mundo!");
     }
 }
@@ -82,14 +74,17 @@ public abstract class Unidade {
 
     protected int vida = 20;
     protected int ataque;
-    public int Vida { get; set; }
+    public int Vida { 
+        get { return vida; }
+        set { vida = value; } 
+    }
 
     public Unidade (int ataque) {
         this.ataque = ataque;
     }
 
     public virtual string Info() {
-        return $"Quédanme {vida} puntos de vida";
+        return $"Quedanme {vida} puntos de vida";
     }
 }
 
@@ -97,16 +92,28 @@ public class Aldean : Unidade {
 
     public Aldean(int ataque) : base(ataque) { }
 
+    public override string Info() {
+        return "Son un aldean. Non fago dano. " + base.Info();
+    }
+
 }
 
 public class Guerreiro : Unidade {
 
     public Guerreiro(int ataque) : base(ataque) { }
 
+    public override string Info() {
+        return $"Son un guerreiro. Fago {ataque} puntos de dano. " + base.Info();
+    }
+
 }
 
 public class Arqueiro : Unidade {
 
     public Arqueiro(int ataque) : base(ataque) { }
+
+    public override string Info() {
+        return $"Son un arqueiro. Fago {ataque} puntos de dano. " + base.Info();
+    }
 
 }
