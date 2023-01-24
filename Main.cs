@@ -16,6 +16,9 @@ public class MainProgram {
 
     // creacion da variable para asignar randoms
     static Random rand = new Random();
+    // variables que teran a lonxitude das listas de equipo
+    static int lonxitudeEquipoVermello, lonxitudeEquipoAzul;
+
     static void Main(string[] args) {
         // Creacion das listas
         List<Unidade> equipoVermello = new List<Unidade>();
@@ -31,6 +34,10 @@ public class MainProgram {
         equipoAzul.Add(new Aldean(0));
         equipoAzul.Add(new Guerreiro(10));
         equipoAzul.Add(new Arqueiro(5));
+
+        //Asignacion das lonxitudes as variables pertinentes
+        lonxitudeEquipoVermello = equipoVermello.Count;
+        lonxitudeEquipoAzul = equipoAzul.Count;
 
         // variable temporal para a condicion de victoria.
         bool victoria = false;
@@ -49,7 +56,7 @@ public class MainProgram {
                 Console.Write("Ataca o equipo vermello \n");
                 // Chamada o metodo que fai o combate pasando como primeiro parametro o atacante e como segundo o defensor
                 // a maiores este metodo devolve true se morreu o defensor
-                if (Combate(equipoVermello, equipoAzul)) {
+                if (Combate(equipoVermello, equipoAzul, lonxitudeEquipoVermello, lonxitudeEquipoAzul)) {
                     // sumase un o contador de mortos do equipo contrario
                     mortosEquipoAzul++;
                 }
@@ -59,7 +66,7 @@ public class MainProgram {
                 Console.Write("Ataca o equipo Azul \n");
                 // Chamada o metodo que fai o combate pasando como primeiro parametro o atacante e como segundo o defensor
                 // a maiores este metodo devolve true se morreu o defensor
-                if (Combate(equipoAzul, equipoVermello)) {
+                if (Combate(equipoAzul, equipoVermello, lonxitudeEquipoAzul, lonxitudeEquipoVermello)) {
                     // sumase un o contador de mortos do equipo contrario
                     mortosEquipoVermello++;
                 }  
@@ -68,28 +75,28 @@ public class MainProgram {
             turno = rand.Next(2);
             
             // se non quedan membros vivos na lista do equipo se acaba o xogo
-            if (mortosEquipoVermello == equipoVermello.Count || mortosEquipoAzul == equipoAzul.Count) {
+            if (mortosEquipoVermello == lonxitudeEquipoVermello || mortosEquipoAzul == lonxitudeEquipoAzul) {
                 // Xa hai ganhador saimos do bucle de xogo
                 victoria = true;
             }
         } while (!victoria);
 
         // comprobacion de que equipo e ganador
-        if (mortosEquipoAzul == equipoAzul.Count) {
+        if (mortosEquipoAzul == lonxitudeEquipoAzul) {
             // mensaxe de que o equipo vermello e o ganador
             Console.Write("O equipo Vermello e o ganador" + "\n");
         }
-        else if (mortosEquipoVermello == equipoVermello.Count) {
+        else if (mortosEquipoVermello == lonxitudeEquipoVermello) {
             // mensaxe de que o equipo azul e o ganador
             Console.Write("O equipo Azul e o ganador" + "\n");
         }
     }
 
-    public static bool Combate( List<Unidade> ataque, List<Unidade> defensa) {
+    public static bool Combate( List<Unidade> ataque, List<Unidade> defensa, int lonxitudeEquipoAtaque, int lonxitudeEquipoDefensa) {
         // asignacion aleatoria do membro que vai atacar
-        int atacante = rand.Next(0, ataque.Count);
+        int atacante = rand.Next(lonxitudeEquipoAtaque);
         //asignacion aleatoria do membro que vai defender
-        int defensor = rand.Next(0, defensa.Count);
+        int defensor = rand.Next(lonxitudeEquipoDefensa);
 
         // calculo de dano unicamiente se o atacante ten vida
         if (ataque[atacante].Vida > 0) {
@@ -97,7 +104,7 @@ public class MainProgram {
             //bucle que controla que o defensor esta vivo para poder defender
             while (!(defensa[defensor].Vida > 0)) {
                 //se asigna un novo defensor aleatorio
-                defensor = rand.Next(0, ataque.Count);
+                defensor = rand.Next(lonxitudeEquipoDefensa);
             }
 
             // Calculo do dano
