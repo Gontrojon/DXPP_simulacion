@@ -17,7 +17,7 @@ public class MainProgram {
     // creacion da variable para asignar randoms
     static Random rand = new Random();
     // variables que teran a lonxitude das listas de equipo
-    int lonxitudeEquipoVermello, lonxitudeEquipoAzul;
+    static int lonxitudeEquipoVermello, lonxitudeEquipoAzul;
 
     static void Main(string[] args) {
         // Creacion das listas
