@@ -12,16 +12,16 @@
 using System;
 using System.Collections.Generic;
 
-public class MainProgram {
+public class MainProgram
+{
 
-
-
-    static void Main(string[] args) {
+    // creacion da variable para asignar randoms
+    static Random rand = new Random();
+    static void Main(string[] args)
+    {
         // Creacion das listas
         List<Unidade> equipoVermello = new List<Unidade>();
-        List<Unidade> equipoAzul  = new List<Unidade>();
-
-        Random rand = new Random();
+        List<Unidade> equipoAzul = new List<Unidade>();
 
         // Incluense a cada equipo as seguintes unidades: 2 Aldeans 0 de ataque, 1 Gerreiro 10 de ataque, 1 Arqueiro 5 de ataque.
 
@@ -36,83 +36,194 @@ public class MainProgram {
         equipoAzul.Add(new Arqueiro(5));
 
         // variable temporal para a condicion de victoria.
-        bool vitoria = false;
+        bool victoria = false;
 
-        // variables para saber quen ataca e quen defende
-        int atacante, defensor;
+        // variable que controla o numero de mortos de cada equipo para asignar unha victoria
+        int mortosEquipoVermello = 0, mortosEquipoAzul = 0;
 
         // varibale que controla os turnos: true = vermello, false = azul. Considerase que sempre empezan os vermellos polo momento
-        int  turno = rand.Next(0,2);
+        int turno = rand.Next(2);
 
+        // bucle de xogo
+        do
+        {
 
-        do {
+            // comprobacion de turnos
+            if (turno == 0)
+            {
+                // Ataca o equipo Vermello
+                Console.Write("Ataca o equipo vermello \n");
 
-            if (turno == 0) { 
-                // Atacara o equipo Vermello
-            } else {
+                // Xamada o metodo que fai o combate pasando como primeiro parametro o atacante e como segundo o defensor
+                // a maiores este metodo devolve true se morreu o defensor
+                if (Combate(equipoVermello, equipoAzul))
+                {
+                    // sumase un o contador de mortos do equipo contrario
+                    mortosEquipoAzul++;
+                }
+
+            }
+            else
+            {
                 // Atacara o equipo Azul
+                Console.Write("Ataca o equipo Azul \n");
+
+                // Xamada o metodo que fai o combate pasando como primeiro parametro o atacante e como segundo o defensor
+                // a maiores este metodo devolve true se morreu o defensor
+                if (Combate(equipoAzul, equipoVermello))
+                {
+                    // sumase un o contador de mortos do equipo contrario
+                    mortosEquipoVermello++;
+                }
+                
             }
 
             // Asignase un novo turno
-            turno = rand.Next(0, 2);
+            turno = rand.Next(2);
             
-            if (equipoAzul.Count == 0 || equipoVermello.Count == 0) {
-                vitoria = true;
+            // se non quedan membros vivos na lista do equipo se acaba o xogo
+            if (mortosEquipoVermello == equipoVermello.Count || mortosEquipoAzul == equipoAzul.Count)
+            {
+                // Xa hai gañador saimos do bucle de xogo
+                victoria = true;
             }
 
-            // temporalmente cerramos o bucle na primeria execucion
-            vitoria = true;
-            
-        } while (!vitoria);
+        } while (!victoria);
 
-        // Una vez implementado o bucle de xogo esta linha mostrara a info das unidades
-        Console.Write("Ola mundo!");
+        // comprobacion de que equipo e ganador
+        if (mortosEquipoAzul == equipoAzul.Count)
+        {
+            // mensaxe de que o equipo vermello e o ganador
+            Console.Write("O equipo Vermello e o ganador" + "\n");
+        }
+        else
+        {
+            // mensaxe de que o equipo azul e o ganador
+            Console.Write("O equipo Azul e o ganador" + "\n");
+        }
     }
+
+    public static bool Combate( List<Unidade> ataque, List<Unidade> defensa)
+    {
+        // variable que controla que o defensor asignado estea vivo
+        bool defensorvivo = false;
+        // asignacion aleatoria do membro que vai atacar
+        int atacante = rand.Next(0, ataque.Count);
+        //asignacion aleatoria do membro que vai defender
+        int defensor = rand.Next(0, defensa.Count);
+
+        // calculo de dano unicamiente se o atacante ten vida
+        if (ataque[atacante].Vida > 0)
+        {
+            
+
+            //bucle que controla que o defensor esta vivo para poder defender
+            while (!defensorvivo)
+            {
+                // comprobacion de que el defensor estea vivo
+                if (defensa[defensor].Vida > 0)
+                {
+                    // se xa hai un defensor vivo saimos do bucle
+                    defensorvivo = true;
+                }
+                else
+                {
+                    //se asigna un novo defensor aleatorio
+                    defensor = rand.Next(0, ataque.Count);
+                }
+            }
+            // ponse a variable outra vez na posicion de que non hay defensor para a seguinte volta
+            defensorvivo = false;
+
+            // Calculo do dano
+            defensa[defensor].Vida -= ataque[atacante].Ataque;
+
+            // saida por consola do que ataca
+            Console.Write(ataque[atacante].Info() + "\n");
+            // saida por consola do que recive dano
+            Console.Write(defensa[defensor].Info() + "\n");
+
+            // se comproba se o defensor morreu para indicalo no return
+            if (defensa[defensor].Vida <= 0)
+            {
+                // devolvemos true se morreu
+                return true;
+            }else {
+                // devolvemos false se non morreu
+                return false;
+            }
+
+        }
+        else
+        {
+            // mensaxe de que non se realizou ataque
+            Console.Write("Non se realizou ataque porque o atacante non ten vida \n");
+
+            // como non atacou naide devolvese false, xa que ningen morreu
+            return false;
+        }
+        
+    }
+
 }
 
-public abstract class Unidade {
+public abstract class Unidade
+{
 
     protected int vida = 20;
     protected int ataque;
-    public int Vida { 
+    public int Vida
+    {
         get { return vida; }
-        set { vida = value; } 
+        set { vida = value; }
+    }
+    public int Ataque
+    {
+        get { return ataque; }
     }
 
-    public Unidade (int ataque) {
+    public Unidade(int ataque)
+    {
         this.ataque = ataque;
     }
 
-    public virtual string Info() {
+    public virtual string Info()
+    {
         return $"Quedanme {vida} puntos de vida";
     }
 }
 
-public class Aldean : Unidade {
+public class Aldean : Unidade
+{
 
     public Aldean(int ataque) : base(ataque) { }
 
-    public override string Info() {
+    public override string Info()
+    {
         return "Son un aldean. Non fago dano. " + base.Info();
     }
 
 }
 
-public class Guerreiro : Unidade {
+public class Guerreiro : Unidade
+{
 
     public Guerreiro(int ataque) : base(ataque) { }
 
-    public override string Info() {
+    public override string Info()
+    {
         return $"Son un guerreiro. Fago {ataque} puntos de dano. " + base.Info();
     }
 
 }
 
-public class Arqueiro : Unidade {
+public class Arqueiro : Unidade
+{
 
     public Arqueiro(int ataque) : base(ataque) { }
 
-    public override string Info() {
+    public override string Info()
+    {
         return $"Son un arqueiro. Fago {ataque} puntos de dano. " + base.Info();
     }
 
