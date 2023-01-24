@@ -72,7 +72,6 @@ public class MainProgram {
                 // Xa hai ganhador saimos do bucle de xogo
                 victoria = true;
             }
-
         } while (!victoria);
 
         // comprobacion de que equipo e ganador
@@ -117,7 +116,6 @@ public class MainProgram {
                 // devolvemos false se non morreu
                 return false;
             }
-
         }
         else {
             // mensaxe de que non se realizou ataque
@@ -126,9 +124,7 @@ public class MainProgram {
             // como non atacou naide devolvese false, xa que ningen morreu
             return false;
         }
-        
     }
-
 }
 
 public abstract class Unidade {
@@ -159,7 +155,6 @@ public class Aldean : Unidade {
     public override string Info() {
         return "Son un aldean. Non fago dano. " + base.Info();
     }
-
 }
 
 public class Guerreiro : Unidade {
@@ -169,7 +164,6 @@ public class Guerreiro : Unidade {
     public override string Info() {
         return $"Son un guerreiro. Fago {ataque} puntos de dano. " + base.Info();
     }
-
 }
 
 public class Arqueiro : Unidade {
@@ -179,5 +173,4 @@ public class Arqueiro : Unidade {
     public override string Info() {
         return $"Son un arqueiro. Fago {ataque} puntos de dano. " + base.Info();
     }
-
 }
